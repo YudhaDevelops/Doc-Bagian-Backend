@@ -21,9 +21,15 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/register/admin','register_admin')->name('regis.admin');
 
     // login
-    Route::get('/login/admin','formLog_admin')->name('log.admin');
-    Route::post('/login/admin','login_admin')->name('log.admin');
+    // Route::get('/login/admin','formLog_admin')->name('log.admin');
+    // Route::post('/login/admin','login_admin')->name('log.admin');
 
     Route::get('/login','formLogin')->name('login');
     Route::post('/login','login')->name('login');
+
+});
+
+Route::group(['middleware' => ['auth','role:2']],function(){
+    // route yang bisa di akses admin / relawan
+    Route::get('/daftar',[AdminController::class,'hanyaAdmin']);
 });

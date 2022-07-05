@@ -149,28 +149,28 @@ class UserController extends Controller
         ];
 
         Auth::attempt($data);
-        dd($data);
-        // get data user
-        $dataUser = User::where('email',$data->email)->get();
 
         if (Auth::check()) { 
             // check data user lewat roles
-            $role = User::where('role',$dataUser->role)->get();
+            $role = Auth::user()->role;
 
             //validasi role
             // jika nilai role 0 -> relawan
             if($role < 1 ){
-                return view('Relawan.Dashboard')->with('user', 'Selamat datang Relawan');
+                Session::flash('success', 'Selamat datang Relawan');
+                return view('Relawan.Dashboard');
             }
             
             // jika nilai role 2 -> hrd
             else if($role > 1){
-                return view('Admin.Dashboard')->with('user', 'Selamat datang HRD');
+                Session::flash('success', 'Selamat datang HRD');
+                return view('HRD.Dashboard');
             }
             
             // jika nilai role 1 -> admin biasa
             else{
-                return view('HRD.Dashboard')->with('user', 'Selamat datang Admin');
+                Session::flash('success', 'Selamat datang Admin');
+                return view('admin.Dashboard');
             }
             // return redirect()->route('dashboard')->with('user', 'Selamat datang Admin di Aplikasi');
         } else { // false
@@ -178,7 +178,9 @@ class UserController extends Controller
             Session::flash('error', 'Email atau password salah');
             return redirect()->route('login');
         }
-        
+    }
+
+    public function addAdmin(){
 
     }
 }
