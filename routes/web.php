@@ -23,4 +23,7 @@ Route::controller(UserController::class)->group(function(){
     // login
     Route::get('/login/admin','formLog_admin')->name('log.admin');
     Route::post('/login/admin','login_admin')->name('log.admin');
+
+    Route::get('/login','formLogin')->name('login');
+    Route::post('/login','login')->name('login');
 });
